@@ -10,6 +10,8 @@
 		"scope": "javascript,typescript",
 		"prefix": "cc",
 		"body": [
+			"import { $3 } from '$2'",
+			"",
 			"class $1 {",
 			"\t",
 			"}",
