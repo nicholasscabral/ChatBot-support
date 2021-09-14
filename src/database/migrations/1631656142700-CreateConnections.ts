@@ -19,6 +19,7 @@ export class CreateConnections1631656142700 implements MigrationInterface {
           {
             name: "admin_id",
             type: "uuid",
+            isNullable: true,
           },
           {
             name: "user_id",
@@ -39,24 +40,34 @@ export class CreateConnections1631656142700 implements MigrationInterface {
             default: "now()",
           },
         ],
+        foreignKeys: [
+          {
+            name: "FKConnectionUser",
+            referencedTableName: "users",
+            referencedColumnNames: ["id"],
+            columnNames: ["user_id"],
+            onDelete: "SET NULL",
+            onUpdate: "SET NULL",
+          },
+        ],
       })
     );
 
-    await queryRunner.createForeignKey(
-      "connections",
-      new TableForeignKey({
-        name: "FKConnectionUser",
-        referencedTableName: "users",
-        referencedColumnNames: ["id"],
-        columnNames: ["user_id"],
-        onDelete: "SET NULL",
-        onUpdate: "SET NULL",
-      })
-    );
+    // await queryRunner.createForeignKey(
+    //   "connections",
+    //   new TableForeignKey({
+    //     name: "FKConnectionUser",
+    //     referencedTableName: "users",
+    //     referencedColumnNames: ["id"],
+    //     columnNames: ["user_id"],
+    //     onDelete: "SET NULL",
+    //     onUpdate: "SET NULL",
+    //   })
+    // );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropForeignKey("connections", "FKConnectionUser");
+    //await queryRunner.dropForeignKey("connections", "FKConnectionUser");
     await queryRunner.dropTable("connections");
   }
 }
